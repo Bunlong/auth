@@ -1,0 +1,30 @@
+!!!
+%html
+  %head
+    %title Geekhmer Auth
+    = stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true
+    = javascript_include_tag "application", "data-turbolinks-track" => true
+    = csrf_meta_tags
+  %body
+    %header.navbar.navbar-inverse.navbar-fixed-top.bs-docs-nav{role: "banner"}
+      .container
+        .navbar-header
+          %button.navbar-toggle{"data-target" => ".bs-navbar-collapse", "data-toggle" => "collapse", type: "button"}
+          %a.navbar-brand{href: "#"} Geek Auth
+        %nav.collapse.navbar-collapse.bs-navbar-collapse{role: "navigation"}
+          %ul.nav.navbar-nav.navbar-right
+            - if current_user
+              %li
+                = link_to "Logged in as #{current_user.email}"
+              %li
+                = link_to "Log out", log_out_path
+            - else
+              %li
+                = link_to "Sign up", sign_up_path
+              %li
+                = link_to "Log in", log_in_path
+    .container
+      - flash.each do |name, msg|
+        .alert.alert-success
+          = content_tag :div, msg, :id => "flash_#{name}"
+      = yield
